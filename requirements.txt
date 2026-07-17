@@ -1,7 +1,7 @@
-streamlit 
-opencv-python-headless 
-ultralytics 
-langchain 
-chromadb 
-pillow 
-numpy 
+streamlit
+opencv-python-headless
+ultralytics
+langchain
+chromadb
+pillow
+numpy
