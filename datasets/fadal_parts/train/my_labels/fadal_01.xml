@@ -1,0 +1,14 @@
+<annotation verified="yes">
+	<folder>images</folder>
+	<filename>fadal_01.jpg</filename>
+	<path>C:\Users\sa702\forgeai\datasets\fadal_parts\train\images\fadal_01.jpg</path>
+	<source>
+		<database>Unknown</database>
+	</source>
+	<size>
+		<width>2555</width>
+		<height>3279</height>
+		<depth>3</depth>
+	</size>
+	<segmented>0</segmented>
+</annotation>

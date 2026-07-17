@@ -1,0 +1,8 @@
+path: C:/Users/sa702/forgeai/datasets/fadal_parts  # Must be an absolute path
+train: train/images
+val: valid/images
+
+names:
+  0: coolant_tank
+  1: spindle
+  2: column
