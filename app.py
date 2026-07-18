@@ -5,7 +5,6 @@ from PIL import Image
 import os
 
 # --- REAL BACKEND IMPORTS ---
-# Ensure these function names exactly match what you wrote in your src files!
 from src.vision import detect_part_in_image 
 from src.ingest import query_local_documents
 
@@ -23,7 +22,12 @@ with st.sidebar:
     st.subheader("System Status")
     st.success("Vision Core: Active (YOLOv8)")
     st.success("Knowledge Core: Active (LangChain)")
-    st.info("Environment: Windows Local (Air-Gapped)")
+    
+    # --- DYNAMIC ENVIRONMENT LOGIC ---
+    # This checks for the 'APP_ENV' variable on Render. 
+    # If not found (like when running locally), it defaults to Windows.
+    app_env = os.getenv('APP_ENV', 'Windows Local (Air-Gapped)')
+    st.info(f"Environment: {app_env}")
     
     st.divider()
     st.markdown("### Active Dataset Context")
@@ -53,7 +57,6 @@ with col1:
         
         # --- EXECUTING REAL YOLO MODEL ---
         with st.spinner("Executing YOLOv8 inference pipeline..."):
-            # Your detect_part_in_image function MUST return an image array and a string label
             processed_img, detected_component = detect_part_in_image(image)
             
         st.image(processed_img, caption="Processed Image Feed (Bounding Boxes Rendered)", use_container_width=True)
@@ -85,7 +88,6 @@ with col2:
             st.session_state.messages.append({"role": "user", "content": automated_prompt})
             
             with st.spinner("Querying vector index for localized hardware schemas..."):
-                # Pass the automated prompt to your real LangChain function
                 ai_response = query_local_documents(automated_prompt)
                 st.session_state.messages.append({"role": "assistant", "content": ai_response})
                 st.rerun()
@@ -97,7 +99,6 @@ with col2:
         st.session_state.messages.append({"role": "user", "content": prompt})
 
         with st.spinner("Searching document vector embeddings..."):
-            # Pass the user's typed prompt to your real LangChain function
             response = query_local_documents(prompt)
             
         with st.chat_message("assistant"):
