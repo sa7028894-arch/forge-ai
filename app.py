@@ -8,99 +8,131 @@ import os
 from src.vision import detect_part_in_image 
 from src.ingest import query_local_documents
 
-# --- 1. PAGE CONFIGURATION ---
+# --- 1. CSS INJECTION FOR AESTHETICS ---
+def inject_custom_css():
+    st.markdown("""
+    <style>
+    /* Dark Theme Base */
+    .stApp {
+        background-color: #0e1117;
+    }
+    
+    /* Modern Container Cards */
+    [data-testid="stVerticalBlock"] {
+        background-color: #1a1c22;
+        padding: 20px;
+        border-radius: 15px;
+        border: 1px solid #333;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    
+    /* Sidebar styling */
+    section[data-testid="stSidebar"] {
+        background-color: #0e1117;
+        border-right: 1px solid #333;
+    }
+    
+    /* Professional Headers */
+    h1, h2, h3 {
+        color: #e0e0e0 !important;
+        font-family: 'Segoe UI', sans-serif;
+    }
+    
+    /* Chat Input styling */
+    .stChatInput {
+        background-color: #262730;
+        border-radius: 10px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+# --- 2. PAGE CONFIGURATION ---
 st.set_page_config(
     page_title="ForgeAI - Industrial Intelligence Dashboard",
     page_icon="⚙️",
     layout="wide",
     initial_sidebar_state="expanded"
 )
+inject_custom_css()
 
-# --- 2. SIDEBAR NAVIGATION & METRICS ---
+# --- 3. SIDEBAR NAVIGATION ---
 with st.sidebar:
-    st.title("⚙️ ForgeAI Engine Panel")
+    st.title("⚙️ ForgeAI Engine")
+    st.markdown("---")
     st.subheader("System Status")
-    st.success("Vision Core: Active (YOLOv8)")
-    st.success("Knowledge Core: Active (LangChain)")
     
-    # --- DYNAMIC ENVIRONMENT LOGIC ---
-    # This checks for the 'APP_ENV' variable on Render. 
-    # If not found (like when running locally), it defaults to Windows.
+    # Clean Status Indicators
+    col_v1, col_v2 = st.columns([1, 5])
+    with col_v1: st.write("🟢")
+    with col_v2: st.write("Vision Core: Active")
+    
+    col_k1, col_k2 = st.columns([1, 5])
+    with col_k1: st.write("🟢")
+    with col_k2: st.write("Knowledge Core: Active")
+    
+    # Dynamic Environment
     app_env = os.getenv('APP_ENV', 'Windows Local (Air-Gapped)')
     st.info(f"Environment: {app_env}")
     
-    st.divider()
-    st.markdown("### Active Dataset Context")
+    st.markdown("---")
+    st.markdown("### Active Dataset")
     st.caption("Target Domain: Fadal CNC Components")
-    st.caption("Manual Indexing: Fully Loaded")
+    st.caption("Status: Fully Loaded")
 
-# --- 3. MAIN DASHBOARD HEADER ---
-st.title("ForgeAI: Multimodal Industrial Operations Hub")
-st.markdown("Integrating real-time computer vision analysis with semantic engineering documentation retrieval.")
+# --- 4. MAIN DASHBOARD ---
+st.title("ForgeAI: Industrial Operations Hub")
+st.markdown("Integrating real-time computer vision analysis with semantic engineering documentation.")
 st.divider()
 
-# --- 4. DUAL-PANEL LAYOUT ---
 col1, col2 = st.columns([1, 1], gap="large")
 
-# --- LEFT PANEL: COMPUTER VISION ENGINE ---
+# --- LEFT PANEL: VISION ENGINE ---
 with col1:
     st.header("📸 Real-Time Vision Inspection")
-    st.subheader("Upload Component Snapshot")
-    
-    uploaded_file = st.file_uploader("Choose an image file...", type=["jpg", "jpeg", "png"])
+    uploaded_file = st.file_uploader("Upload Component Snapshot...", type=["jpg", "jpeg", "png"])
     
     detected_component = ""
     
     if uploaded_file is not None:
         image = Image.open(uploaded_file)
-        st.subheader("Analysis Stream")
-        
-        # --- EXECUTING REAL YOLO MODEL ---
-        with st.spinner("Executing YOLOv8 inference pipeline..."):
+        with st.spinner("Processing image..."):
             processed_img, detected_component = detect_part_in_image(image)
             
-        st.image(processed_img, caption="Processed Image Feed (Bounding Boxes Rendered)", use_container_width=True)
-        st.metric(label="Primary Classification Identified", value=detected_component)
+        st.image(processed_img, caption="Bounding Boxes Rendered", use_container_width=True)
+        st.metric(label="Primary Classification", value=detected_component)
     else:
-        st.info("Awaiting input image stream to trigger visual spatial bounding pipeline.")
+        st.info("Awaiting input stream...")
 
-# --- RIGHT PANEL: LANGCHAIN KNOWLEDGE BASE ---
+# --- RIGHT PANEL: RAG KNOWLEDGE BASE ---
 with col2:
-    st.header("🧠 Automated Technical RAG Interface")
-    st.subheader("Semantic Document Expert Queries")
-
-    # Chat UI Container
+    st.header("🧠 Technical RAG Interface")
+    
     if "messages" not in st.session_state:
-        st.session_state.messages = [{"role": "assistant", "content": "System initialized. Ask any maintenance, torque, or workflow question regarding indexed Fadal hardware manuals."}]
+        st.session_state.messages = [{"role": "assistant", "content": "System initialized. Ask any maintenance question regarding Fadal manuals."}]
 
-    # Display chat history
     for message in st.session_state.messages:
         with st.chat_message(message["role"]):
             st.markdown(message["content"])
 
-    # --- VISION-TRIGGERED CONTEXT INJECTION (AUTOMATED QUERY) ---
+    # Vision Trigger
     if detected_component and detected_component.strip():
         if "last_detected" not in st.session_state or st.session_state.last_detected != detected_component:
             st.session_state.last_detected = detected_component
-            
-            # The AI "sees" the part and formulates an automated question
             automated_prompt = f"Automated scan detected: {detected_component}. Provide maintenance overview."
             st.session_state.messages.append({"role": "user", "content": automated_prompt})
             
-            with st.spinner("Querying vector index for localized hardware schemas..."):
+            with st.spinner("Querying vector index..."):
                 ai_response = query_local_documents(automated_prompt)
                 st.session_state.messages.append({"role": "assistant", "content": ai_response})
                 st.rerun()
 
-    # --- USER INPUT QUERY BOX (MANUAL QUERY) ---
-    if prompt := st.chat_input("Ask a manual question (e.g., 'What is the standard tolerance check for the spindle?')..."):
-        with st.chat_message("user"):
-            st.markdown(prompt)
+    # Manual Input
+    if prompt := st.chat_input("Ask a manual question..."):
         st.session_state.messages.append({"role": "user", "content": prompt})
-
-        with st.spinner("Searching document vector embeddings..."):
+        with st.chat_message("user"): st.markdown(prompt)
+        
+        with st.spinner("Searching document embeddings..."):
             response = query_local_documents(prompt)
             
-        with st.chat_message("assistant"):
-            st.markdown(response)
+        with st.chat_message("assistant"): st.markdown(response)
         st.session_state.messages.append({"role": "assistant", "content": response})
