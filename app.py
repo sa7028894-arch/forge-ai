@@ -4,11 +4,11 @@ import numpy as np
 from PIL import Image
 import os
 
-# --- REAL BACKEND IMPORTS ---
+
 from src.vision import detect_part_in_image 
 from src.ingest import query_local_documents
 
-# --- 1. VIBRANT CSS INJECTION ---
+
 def inject_custom_css():
     st.markdown("""
     <style>
@@ -60,7 +60,7 @@ def inject_custom_css():
     </style>
     """, unsafe_allow_html=True)
 
-# --- 2. PAGE CONFIGURATION ---
+
 st.set_page_config(
     page_title="ForgeAI - Industrial Intelligence",
     page_icon="⚙️",
@@ -68,7 +68,7 @@ st.set_page_config(
 )
 inject_custom_css()
 
-# --- 3. SIDEBAR NAVIGATION ---
+
 with st.sidebar:
     st.title("⚙️ ForgeAI Engine")
     st.markdown("---")
@@ -84,7 +84,7 @@ with st.sidebar:
     st.markdown("### Active Dataset")
     st.caption("Target Domain: Fadal CNC Components")
 
-# --- 4. MAIN DASHBOARD ---
+
 st.title("ForgeAI: Industrial Operations Hub")
 st.markdown("Integrating real-time vision analysis with semantic documentation.")
 st.divider()
