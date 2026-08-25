@@ -1,4 +1,4 @@
-path: C:/Users/sa702/forgeai/datasets/fadal_parts  # Must be an absolute path
+path: C:/Users/sa702/forgeai/datasets/fadal_parts  
 train: train/images
 val: valid/images
 
