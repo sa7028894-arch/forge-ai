@@ -81,15 +81,15 @@ Project structure
 Plaintext
 
 forge-ai/
-├── app.py                      # Main Streamlit dashboard & UI logic
-├── requirements.txt            # Python dependencies (Streamlit, LangChain, YOLO, etc.)
+├── app.py 
+├── requirements.txt            
 ├── data/
-│   └── manual.pdf              # Fadal CNC hardware & operations manual
+│   └── manual.pdf              
 ├── datasets/
 │   └── fadal_parts/
-│       └── train/              # Training images for component inspection
+│       └── train/              
 ├── images/
-│   ├── fadal_01.jpg            # Reference component snapshots
+│   ├── fadal_01.jpg            
 │   ├── fadal_02.jpg
 │   ├── fadal_03.jpg
 │   └── fadal_04.jpg
