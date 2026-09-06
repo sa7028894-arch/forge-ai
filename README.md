@@ -2,7 +2,7 @@
 
 A multimodal AI dashboard designed for industrial maintenance — integrating real-time computer vision with semantic document retrieval.
    
-🔗 **Try it live** → *(Hosted on Streamlit Community Cloud)*
+🔗 Try it live → https://forge-ai-jajwcjicxhwbbgkygnjre.streamlit.app
 
 ---
 
