@@ -1,10 +1,9 @@
 # ⚙️ ForgeAI Engine — Multimodal Industrial Operations Hub
 
-A multimodal AI dashboard designed for industrial maintenance — integrating real-time computer vision with semantic document retrieval.
+A multimodal AI dashboard designed for industrial maintenance —  integrating real-time computer vision with semantic document retrieval.
    
 🔗 Try it live → https://forge-ai-jajwcjicxhwbbgkygnjre.streamlit.app
 
----
 
 ## What this is
 
@@ -22,7 +21,6 @@ This platform unifies two core capabilities into a single cohesive interface—*
 
 The interface renders your system status dynamically with a custom dark-mode radial gradient and glassmorphic panels, making system states and diagnostics visible at a glance.
 
----
 
 ## Table of contents
 
@@ -35,7 +33,6 @@ The interface renders your system status dynamically with a custom dark-mode rad
 * Extensibility
 * License
 
----
 
 ## Quickstart
 
