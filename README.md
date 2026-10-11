@@ -1,4 +1,4 @@
-# ⚙️ ForgeAI Engine — Multimodal Industrial Operations Hub
+# ⚙️ ForgeAI Engine —  Multimodal Industrial Operations Hub
 
 A multimodal AI dashboard designed for industrial maintenance —  integrating real-time computer vision with semantic document retrieval.
    
